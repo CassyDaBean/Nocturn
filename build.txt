@@ -1,0 +1,13 @@
+author = FG
+version = 0.0.9
+
+displayName = Nocturn 
+Code = false 
+
+homepage = https://discord.gg/jjaQ9CB
+hideResources = true
+ 
+includeSource = false
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+ 
+includePDB = true

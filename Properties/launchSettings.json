@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Nocturn": {
+      "commandName": "Executable"
+    },
+    "Terraria": {
+      "commandName": "Executable",
+      "executablePath": "$(tMLPath)",
+      "workingDirectory": "$(TerrariaSteamPath)"
+    }
+  }
+}
