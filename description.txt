@@ -1,10 +1,17 @@
 _____________________
-Current Features in the current version(0.0.9):
+---NOCTURN(V0.0.1)---
 _____________________
-One New pre-EoC Boss!
 
 
+_____________________
+Current Features in the current version(V0.0.1):
+_____________________
+One New Post EoW/BoC Boss!
+(Spawned with the Aqua Chalice.)
+
+A (Currently) W.I.P Event! 
+(Summoned with the blood of many worms.)
 
 ----------------------
-V0.0.9
+V0.0.1
 

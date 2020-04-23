@@ -16,6 +16,9 @@
     <EmbeddedResource Remove="lib\**" />
     <None Remove="lib\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Glowmask\Aqua\" />
+  </ItemGroup>
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
