@@ -62,7 +62,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             _blip += 3.14f / 120;
             _dist += _distRate;
             _distRate += .5f;
-            float divisions = 6.28f / 8;
+          
             Vector2 targetPos;
             targetPos.X = _origin.X + _dist * (float)Math.Cos(_blip) - npc.width / 2;
             targetPos.Y = _origin.Y + _dist * (float)Math.Sin(_blip);

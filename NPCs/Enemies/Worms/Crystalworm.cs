@@ -131,7 +131,7 @@ namespace Nocturn.NPCs.Enemies.Worms
         public bool directional = true;
         public float speed;
         public float turnSpeed;
-
+        int _despawn = 0;
         public override void AI()
         {
             if (npc.localAI[1] == 0f)
@@ -579,7 +579,24 @@ namespace Nocturn.NPCs.Enemies.Worms
                     }
                 }
             }
-            CustomBehavior();
+
+            if (!Main.player[npc.target].active || Main.player[npc.target].dead)
+            {
+                npc.TargetClosest(true);
+                if (!Main.player[npc.target].active || Main.player[npc.target].dead)
+                {
+                    if (_despawn == 0)
+                        _despawn++;
+                }
+            }
+            if (_despawn >= 1)
+            {
+                _despawn++;
+                npc.noTileCollide = true;
+                if (_despawn >= 100)
+                    npc.active = false;
+            }
+                CustomBehavior();
         }
 
         public virtual void Init()

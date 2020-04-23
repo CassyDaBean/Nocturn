@@ -10,11 +10,13 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Nocturn.NPCs.Bosses.Aquafuros.AquaMain;
 
+
+
 namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 {
     public class AFL : ModNPC
     {
-
+        int AnimGo = 0;
         public float tvel = 0f;
         int _despawn = 0;
         public static int aiballcount = 0;
@@ -22,85 +24,98 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
         float _dist = 0;
         float _distRate = .1f;
         Vector2 _origin;
-        Vector2 _Origin2;
+        int ree = 0;
+        public static bool active = true;
+        private int center
+        {
+            get => (int)npc.ai[0];
+            set => npc.ai[0] = value;
+        }
+
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquaflame");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 4;
         }
         public override void SetDefaults()
         {
+            active = true;
+            AnimGo = 0;
+            ree = 0;
             _despawn = 0;
             aiballcount = 0;
             _distRate = 3;
-            _dist = 50;
+            _dist = 90;
             _blip = -1;
-            npc.width = 26;
-            npc.height = 204;
-            npc.damage = 30;
+            npc.width = 28;
+            npc.height = 46;
+            npc.damage = 0;
             npc.defense = 12;
-            npc.lifeMax = 1;
+            npc.lifeMax = 150;
             npc.value = 0f;
             npc.knockBackResist = 0f;
-            npc.aiStyle = 0;
+            npc.aiStyle = -1;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.buffImmune[24] = true;
-            npc.dontTakeDamage = true;
+            npc.dontTakeDamage = false;
 
         }
-
+        public override void ScaleExpertStats(int numPlayers, float npcLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.25f * npcLifeScale);
+            //npc.damage = (int)(npc.damage * 0.6f);
+        }
 
         public override void AI()
         {
-            //modified Aquaball code for testing 
+            #region NPC Position prt 1
+            float Rot = 0.1f;
             if (_blip == -1 && aiballcount == 0)
             {
                 _blip = npc.ai[1] * 6.28f / 8;
                 _origin = npc.position;
+
             }
             _blip += 3.14f / 120;
-            _dist += _distRate;
-            _distRate += .5f;
-            float divisions = 6.28f / 8;
-            Vector2 targetPos;
-            targetPos.X = _origin.X + _dist * (float)Math.Cos(_blip) - npc.width / 2;
-            targetPos.Y = _origin.Y + _dist * (float)Math.Sin(_blip);
-            npc.position = targetPos;
-            if (_dist > 400)
+            AFL modNPC = npc.modNPC as AFL;
+            if (modNPC != null)
             {
-                aiballcount = 1;
-                _distRate -= 1;
+                Vector2 center = Main.npc[modNPC.center].Center;
+
+                Vector2 _Dist;
+                SetPosition(npc);
+                //Rot += npc.ai[1] * 0.1f;
+                _Dist = npc.position;
+                center.X = _Dist.X + 90 * (float)Math.Cos(_blip) - npc.width / 2;
+                center.Y = _Dist.Y + 90 * (float)Math.Sin(_blip);
+                npc.position = center;
             }
-            if (aiballcount == 1)
-            {
-                Player player = Main.player[npc.target];
-                _Origin2 = player.Center;
-            }
-                float dist = Vector2.Distance(npc.Center, Main.player[npc.target].Center);
-                tvel = dist / 70;
-                Vector2 Targetpos;
-                Targetpos.X = _Origin2.X + tvel;
-                Targetpos.Y = _Origin2.Y + tvel;
-               
-                npc.position = Targetpos;
-                float speed = 20; // pixels per second
-                npc.velocity = (Main.player[npc.target].Center - npc.Center).SafeNormalize(Vector2.Zero) * speed;
+            #endregion
 
-               // Player player = Main.player[npc.target];
-
-
-               
-
-
-
-            
+            #region DESPAWN
            
+             if (npc.life <= 1)
+            {
+                active = false;
+            }
+             if (npc.life >= 2)
+            {
+                active = true;
+            }
 
+            NPC aquafuros = Main.npc[center];
+            if (!aquafuros.active || aquafuros.type != NPCType<Aquafuros>())
+            {
+                
+                    npc.life = -1;
+                    npc.active = false;
+                    return;
+                
+            }
 
-
-            //Should despawn after the player dies (hopefully)
             if (!Main.player[npc.target].active || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
@@ -122,13 +137,62 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                 npc.active = false;
                 npc.life = 0;
             }
-
-           
-
-
-        
+            #endregion
+        }
 
 
-        }                              
+
+        #region NPC Position prt 2: electricboogaloo
+        public static void SetPosition(NPC npc)
+        {
+            float Rotation = 0;
+            AFL modNPC = npc.modNPC as AFL;
+            if (modNPC != null)
+            {
+                Vector2 center = Main.npc[modNPC.center].Center;
+
+                float test = -1;
+                if (test == -1)
+                {
+                    Rotation += 0.1f;
+                    test = npc.ai[1] * 6.28f / 8;
+                }
+                
+
+                npc.position = center;
+            }
+        }
+        #endregion
+
+
+        #region Animation
+        public override void FindFrame(int frameHight)
+        {
+
+            if (AnimGo == 0)
+            {
+                npc.frameCounter++;
+                if (npc.frame.Y == frameHight * 4)
+                {
+
+                    npc.frame.Y = 0;
+                }
+
+                if (npc.frameCounter > 4)
+                {
+                    npc.frameCounter = 0;
+                    npc.frame.Y += frameHight;
+                    if (npc.frame.Y >= frameHight * Main.npcFrameCount[npc.type]) npc.frame.Y = 0;
+                }
+            }
+        }
+        #endregion
+
+        #region Color glow thingy
+        public override Color? GetAlpha(Color lightColor) // color of glow
+        {
+            return Color.Aqua;
+        }
+        #endregion
     }
 }

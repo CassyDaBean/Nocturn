@@ -11,6 +11,8 @@ namespace Nocturn.NPCs.Bosses.Aquafuros
     {
         public override string Texture { get { return "Nocturn/NPCs/Bosses/Aquafuros/AquafurosHead"; } }
 
+        
+
         public override void SetDefaults()
         {
             // Head is 10 defence, body 20, tail 30.
@@ -108,8 +110,8 @@ namespace Nocturn.NPCs.Bosses.Aquafuros
             tailType = NPCType<AquafurosTail>();
             bodyType = NPCType<AquafurosBody>();
             headType = NPCType<AquafurosHead>();
-            speed = 5f;
-            turnSpeed = 0.5f;
+            speed = 4f;
+            turnSpeed = 0.1f;
         }
     }
 
@@ -134,6 +136,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros
         public bool directional = true;            
         public float speed;
         public float turnSpeed;
+        int _despawn = 0;
 
         public override void AI()
         {
@@ -598,7 +601,22 @@ namespace Nocturn.NPCs.Bosses.Aquafuros
 
                 npc.active = false;
             }
-
+            /*if (!Main.player[npc.target].active || Main.player[npc.target].dead)
+            {
+                npc.TargetClosest(true);
+                if (!Main.player[npc.target].active || Main.player[npc.target].dead)
+                {
+                    if (_despawn == 0)
+                        _despawn++;
+                }
+            }
+            if (_despawn >= 1)
+            {
+                _despawn++;
+                npc.noTileCollide = true;
+                if (_despawn >= 100)
+                    npc.active = false;
+            }*/
             custombehavior();
         }
 

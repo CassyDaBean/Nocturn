@@ -70,7 +70,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             npc.position = targetPos;
             if (_dist > 400)
             {
-                aiballcount = 1;
+                //aiballcount = 1;
                 _distRate -= 1;
             }
                if(aiballcount == 0)

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿/*
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -42,16 +43,16 @@ namespace Nocturn.Items.Armor.Gigamesh
 			player.magicDamage -= 0.2f;
 			player.minionDamage -= 0.2f;
 			*/
-        }
+/* }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("GigawormCarapace"), 10);
-            recipe.AddIngredient(mod.GetItem("Wormblood"), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+ public override void AddRecipes()
+ {
+     ModRecipe recipe = new ModRecipe(mod);
+     recipe.AddIngredient(mod.GetItem("GigawormCarapace"), 10);
+     recipe.AddIngredient(mod.GetItem("Wormblood"), 2);
+     recipe.AddTile(TileID.Anvils);
+     recipe.SetResult(this);
+     recipe.AddRecipe();
+ }
 }
+}*/

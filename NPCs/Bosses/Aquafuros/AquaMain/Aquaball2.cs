@@ -68,7 +68,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             _blip += 3.14f / 120;
             _dist += _distRate;
             _distRate += .5f;
-            float divisions = 6.28f / 8;
+            
             const float speed = 10; // pixels per second
             npc.velocity = (Main.player[npc.target].Center - npc.Center).SafeNormalize(Vector2.Zero) * speed;
             if (_dist > 1500)
