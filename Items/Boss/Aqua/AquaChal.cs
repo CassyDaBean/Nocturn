@@ -20,7 +20,7 @@ namespace Nocturn.Items.Boss.Aqua
 		public override void SetStaticDefaults() {
             DisplayName.SetDefault("Aqua Chalice");
 			Tooltip.SetDefault("Use to summon Aquafuros."
-                +"/n 'The water in it seems to steadily stir around by itself.'");
+                +"\n 'The water in it seems to steadily stir around by itself.\'");
 		}
 
 		public override void SetDefaults() {
