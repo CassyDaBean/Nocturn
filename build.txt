@@ -1,13 +1,13 @@
-author = FG
+author = FG 
 version = 0.0.1
 
 displayName = Nocturn 
-Code = false 
+Code = true 
 
 homepage = https://discord.gg/jjaQ9CB
-hideResources = true
+ hideResources = true
  
 includeSource = false
-buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+ buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
  
-includePDB = true
+includePDB = false
