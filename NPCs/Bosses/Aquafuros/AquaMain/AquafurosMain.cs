@@ -114,10 +114,12 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             npc.DeathSound = null;
             npc.alpha = 0;
             npc.dontTakeDamage = false;
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AF");
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
-            }            
+            }
+            musicPriority = MusicPriority.BossHigh;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
