@@ -15,17 +15,22 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using static Terraria.ModLoader.ModContent;
-
+using Nocturn.Support;
 namespace Nocturn
 {
-	public class Nocturn : Mod
-	{
-		
+    public class Nocturn : Mod
+    {
+        internal static Nocturn instance;
 
-		public Nocturn() {
+        public Nocturn()
+        {
 
-		}
-	}
-
+            instance = this;
+        }
+        public override void PostSetupContent()
+        {
+            WeakReferences.GoModSupport();
+        }
+    }
 }
 

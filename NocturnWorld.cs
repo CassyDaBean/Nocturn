@@ -25,33 +25,52 @@ namespace Nocturn
 
 
         public static bool WormInvasionUp = false;
-
+        public static bool YeetedAquafuros;
 
         public override void Initialize()
         {
-
+            YeetedAquafuros = false;
             WormInvasionUp = false;
 
 
         }
+
+        public override TagCompound Save()
+        {
+            var Yeeted = new List<string>();
+            if (YeetedAquafuros) Yeeted.Add("H2OBoi");
+
+
+            return new TagCompound
+            {
+                {"yeeted", Yeeted}
+            };
+
+
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            var Yeeted = tag.GetList<string>("yeeted");
+            YeetedAquafuros = Yeeted.Contains("H2OBoi");
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            BitsByte flags = new BitsByte();
+            flags[0] = YeetedAquafuros;
+                writer.Write(flags);
+        }
+
+        public override void NetReceive(BinaryReader reader)
+        {
+            BitsByte flags = reader.ReadByte();
+            YeetedAquafuros = flags[0];
+        }
+
         public override void PostUpdate()
         {
-           /* if (WormInvasionUp)
-            {
-
-                for (int k = 0; k < Main.npc.Length; k++)
-                {
-                    NPC other = Main.npc[k];
-                    if (NPCs.WEveGlobal.Wave1worms(other.type))
-                    {
-                        other.alpha += 5;
-                        if (other.alpha >= 255)
-                        {
-                            other.active = false;
-                        }
-                    }
-                }
-            } */           
+              
         }
    }
 }

@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Glowmask\Aqua\" />
+    <Folder Include="HPBars\" />
   </ItemGroup>
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
