@@ -1,8 +1,8 @@
 author = FG 
-version = 0.0.1
+version = 0.0.3
 
 displayName = Nocturn 
-Code = true 
+Code = false 
 
 homepage = https://discord.gg/jjaQ9CB
  hideResources = true

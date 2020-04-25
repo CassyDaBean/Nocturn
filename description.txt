@@ -1,17 +1,14 @@
 _____________________
----NOCTURN(V0.0.1)---
+---NOCTURN(V0.0.3)---
 _____________________
 
 
 _____________________
-Current Features in the current version(V0.0.1):
+Current Features in the current version(V0.0.3):
 _____________________
-One New Post EoW/BoC Boss!
-(Spawned with the Aqua Chalice.)
+Added BossChecklist and YABHB support for Aquafuros.
 
-A (Currently) W.I.P Event! 
-(Summoned with the blood of many worms.)
-
+Debuffed the Aqua Mace's damage from 35 to 30.
 ----------------------
-V0.0.1
+V0.0.3
 
