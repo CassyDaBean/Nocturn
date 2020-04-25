@@ -663,6 +663,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
         #region Loot
         public override void NPCLoot()
         {
+            NocturnWorld.YeetedAquafuros = true;
              if (Main.expertMode)
              {
                  Item.NewItem(npc.getRect(), mod.ItemType("Aquabag"));
