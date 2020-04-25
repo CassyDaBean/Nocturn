@@ -1,4 +1,4 @@
-
+/*
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -42,4 +42,4 @@ namespace Nocturn.Items.Swords
         }
 
     }
-}
+}*/
