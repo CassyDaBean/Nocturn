@@ -423,7 +423,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             {
                // NPC aquafuros = Main.npc[center];
                 Vector2 delta = Main.player[npc.target].Center - npc.Center;
-                int damage = 6;
+                int damage = 15;
 
                 if (Phasetimer == 0f)
                 {
@@ -443,9 +443,18 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, delta.X, delta.Y, ProjectileType<WaterA>(), damage, 3f, Main.myPlayer);
                 }
 
-                if (attackCool <= 500f && attackCool >= 2f )
+                if (attackCool <= 500f && attackCool >= 450f )
                 {
                     _attackDur = 2;
+                }
+                if (attackCool <= 449f && attackCool >= 350f)
+                {
+                    _attackDur = 15;
+                    tvel += 2.5f;
+                }
+                if (attackCool <= 349f && attackCool >=2f)
+                {
+                    _attackDur = 5;
                 }
                 if (attackCool <= 300f && attackCool >= 100f && Phasetimer > 0f)
                 {
@@ -499,7 +508,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                     if (Main.netMode != 1 && attackCool >= 580f)
                     {
                         _attackDur = 15;
-                        tvel += 2;
+                        tvel += 2.5f;
                     }
                     if (attackCool <= 500f && attackCool >= 2f)
                     {
@@ -525,7 +534,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                 }
                 if (Phasetimer == 1f)
                 {
-                    Phasetimer =  Main.rand.Next(11);
+                    Phasetimer =  Main.rand.Next(8);
                 }
                 if (Phasetimer >= 2f && Phasetimer <= 3f)
                 {
@@ -547,6 +556,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                 }
                 if (Phasetimer >= 11f)
                 {
+                    loop = 50;
                     Phasetimer = -1f;
                 }
             }
@@ -557,14 +567,18 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
             if (attackphase == 5)
             {
-
-                    if (Main.netMode != 1 && attackCool >= 500f)
+                Vector2 delta = Main.player[npc.target].Center - npc.Center;
+                int damage = 15;
+                if (Main.netMode != 1 && attackCool >= 450f)
                     {
                         _attackDur = 15;
-                        tvel += 4;
+                        tvel += 3f;
                     
+                    }
+                    if (attackCool <= 400f && attackCool >= 397)
+                    {
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, delta.X, delta.Y, ProjectileType<WaterA>(), damage, 3f, Main.myPlayer);
                 }
-                    
                     if (attackCool <= 199f && attackCool >= 2f)
                     {
                         _attackDur = 3;
@@ -574,6 +588,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                     
                 if (attackCool <= 2f)
                 {
+                    npc.netUpdate = true;
                     Phasetimer = -1;
                     attackphase = 4;
                 }
