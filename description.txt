@@ -1,14 +1,14 @@
 _____________________
----NOCTURN(V0.0.3)---
+---NOCTURN(V0.0.4)---
 _____________________
 
 
 _____________________
-Current Features in the current version(V0.0.3):
+Current Features in the current version(V0.0.4):
 _____________________
-Added BossChecklist and YABHB support for Aquafuros.
+Buffed Aquafuros (arrow stream now does 15 base damage rather than 6 and made him much faster.) 
 
-Debuffed the Aqua Mace's damage from 35 to 30.
+
 ----------------------
-V0.0.3
+V0.0.4
 
