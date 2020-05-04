@@ -95,22 +95,54 @@ namespace Nocturn.NPCs.Bosses.Enduris
                 npc.position = new Vector2(endurisHead.Center.X - JawPosX, endurisHead.Center.Y + JawPosY);
                 if (AttackPhase == 0)
                 {
-                    JawPosX = 212;
-                    JawPosY = 180;
+                    if (npc.ai[0] == 0)
+                    {
+                        JawPosX = 212;
+                        JawPosY = 180;
+                    }
+                    if (npc.ai[1] == 1)
+                    {
+                        npc.spriteDirection = 1;
+                        JawPosX = -2;
+                        JawPosY = 180;
+                    }
+                    
                 }
                 if (AttackPhase == 1)
                 {
                     if(Main.netMode != 1 && attackCool > 190)
                     {
-                        JawPosX = 212;
-                        JawPosY = 180;
+                       
+                        if(npc.ai[0] == 0)
+                        {
+                            JawPosX = 212;
+                            JawPosY = 180;
+                        }
+
+
+                        if (npc.ai[1] == 1)
+                        {
+                            npc.spriteDirection = 1;
+                            JawPosX = -2;
+                            JawPosY = 180;
+                        }
                     }
                     if (attackCool < 190 && attackCool >100 && JawPosY != 230)
                     {
+
                         JawPosY += 1;
+                        if (npc.ai[1] == 1)
+                        {
+                            JawPosX -= 1;
+                        }
+                        if (npc.ai[0] == 0)
+                        {
+                            JawPosX += 1;
+                        }
                     }
                     if(attackCool < 100 && JawPosY <= 230 && JawPosY !=180)
                     {
+                        
                         JawPosY -= 1;
                     }
                 }

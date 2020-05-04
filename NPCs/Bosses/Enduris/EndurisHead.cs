@@ -60,7 +60,9 @@ namespace Nocturn.NPCs.Bosses.Enduris
             {
                 for (int k = 0; k < 2; k++) //this if for crating and centering the AFL's
                 {
-                    int Jaw = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisJaw>());
+                    int Jawcount = 2;
+                    int Jaw = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisJaw>(), npc.whoAmI,0,Jawcount);
+                    
                     Main.npc[Jaw].ai[0] = npc.whoAmI;
                     Main.npc[Jaw].ai[1] = k;
                     EndurisJaw.SetPosition(Main.npc[Jaw]);
