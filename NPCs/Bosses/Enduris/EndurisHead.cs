@@ -58,24 +58,57 @@ namespace Nocturn.NPCs.Bosses.Enduris
             }
             if (spawnparts == 1)
             {
-                for (int k = 0; k < 2; k++) //this if for crating and centering the AFL's
+                for (int k = 0; k < 2; k++) 
                 {
                     int Jawcount = 2;
-                    int Jaw = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisJaw>(), npc.whoAmI,0,Jawcount);
-                    
-                    Main.npc[Jaw].ai[0] = npc.whoAmI;
+                    int Jaw = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisJaw>(), npc.whoAmI,0,Jawcount);                    
+                    Main.npc[Jaw].ai[0] = npc.whoAmI;                    
                     Main.npc[Jaw].ai[1] = k;
                     EndurisJaw.SetPosition(Main.npc[Jaw]);
+                    
                     spawnparts = 2;
                     npc.netUpdate = true;
                 }
+                
             }
             if (spawnparts == 2)
             {
-                
+                for (int e=0; e <1; e++)
+                {
+                    int Eye = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisEye1>(), npc.whoAmI, 0, 2);
+                    Main.npc[Eye].ai[0] = npc.whoAmI;
+                    Main.npc[Eye].ai[1] = e;
+                    EndurisEye1.SetPosition(Main.npc[Eye]);
+                    npc.netUpdate = true;
+                    spawnparts = 3;
+                }                
+            }
+            if(spawnparts == 3)
+            {
+                for (int B = 0; B < 1; B++)
+                {
+                    int Body = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisBody>(), npc.whoAmI, 0, 2);
+                    Main.npc[Body].ai[0] = npc.whoAmI;
+                    Main.npc[Body].ai[1] = B;
+                    EndurisBody.SetPosition(Main.npc[Body]);
+                    npc.netUpdate = true;
+                    spawnparts = 4;
+                }
+            }
+            if (spawnparts == 4)
+            {
+                for (int N = 0; N < 3; N++)
+                {
+                    int Neck = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisNeck>(), npc.whoAmI, 0, 2);
+                    Main.npc[Neck].ai[0] = npc.whoAmI;
+                    Main.npc[Neck].ai[1] = N;
+                    EndurisNeck.SetPosition(Main.npc[Neck]);
+                    npc.netUpdate = true;
+                    spawnparts = 5;
+                }
+
             }
             #endregion
         }
-
-    }
+    }    
 }
