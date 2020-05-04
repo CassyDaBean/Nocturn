@@ -26,9 +26,11 @@ namespace Nocturn
 
         public static bool WormInvasionUp = false;
         public static bool YeetedAquafuros;
+        public static bool YeetedMechs;
 
         public override void Initialize()
         {
+            YeetedMechs = NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3;
             YeetedAquafuros = false;
             WormInvasionUp = false;
 
@@ -39,7 +41,7 @@ namespace Nocturn
         {
             var Yeeted = new List<string>();
             if (YeetedAquafuros) Yeeted.Add("H2OBoi");
-
+            if (YeetedMechs) Yeeted.Add("mECH");
 
             return new TagCompound
             {
@@ -53,6 +55,10 @@ namespace Nocturn
         {
             var Yeeted = tag.GetList<string>("yeeted");
             YeetedAquafuros = Yeeted.Contains("H2OBoi");
+            YeetedMechs = Yeeted.Contains("mECH");
+
+            YeetedMechs = NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3;
+
         }
 
         public override void NetSend(BinaryWriter writer)
@@ -70,7 +76,13 @@ namespace Nocturn
 
         public override void PostUpdate()
         {
-              
+              if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+            {
+                if(!YeetedMechs)
+                {
+                    YeetedMechs = true;
+                }
+            }
         }
    }
 }
