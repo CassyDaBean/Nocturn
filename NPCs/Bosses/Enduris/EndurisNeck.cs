@@ -39,7 +39,12 @@ namespace Nocturn.NPCs.Bosses.Enduris
             npc.noTileCollide = true;
             npc.behindTiles = false;
         }
-
+        #region Color glow thingy
+        public override Color? GetAlpha(Color lightColor) // color of glow
+        {
+            return new Color(0.7f, 0.7f, 0.7f,1f);
+        }
+        #endregion
         #region NPC Position prt 2: electricboogaloo
         public static void SetPosition(NPC npc)
         {

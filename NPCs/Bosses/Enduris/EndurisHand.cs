@@ -13,7 +13,7 @@ using Nocturn;
 
 namespace Nocturn.NPCs.Bosses.Enduris
 {
-   public class EndurisArm1 : ModNPC
+   public class EndurisHand : ModNPC
     {
         #region Center
         private int center
@@ -30,18 +30,18 @@ namespace Nocturn.NPCs.Bosses.Enduris
             set => npc.ai[2] = value;
         }
         #endregion
-        
+        float _blip = -1f;
 
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enduris Arm");
+            DisplayName.SetDefault("Enduris Hand");
         }
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.width = 260;
-            npc.height = 592;
+            npc.width = 170;
+            npc.height = 600;
             npc.dontTakeDamage = true;
             npc.lifeMax = 100;
             npc.noGravity = true;
@@ -53,7 +53,7 @@ namespace Nocturn.NPCs.Bosses.Enduris
         public static void SetPosition(NPC npc)
         {
             
-            EndurisArm1 endurisArm1 = npc.modNPC as EndurisArm1;
+            EndurisHand endurisArm1 = npc.modNPC as EndurisHand;
             if (endurisArm1 != null)
             {
                 Vector2 center = Main.npc[endurisArm1.center].Center;
@@ -65,7 +65,7 @@ namespace Nocturn.NPCs.Bosses.Enduris
         #region Color glow thingy
         public override Color? GetAlpha(Color lightColor) // color of glow
         {
-            return new Color(0.7f, 0.7f, 0.7f);
+            return new Color(0.7f,0.7f,0.7f);
         }
         #endregion
 
@@ -74,7 +74,6 @@ namespace Nocturn.NPCs.Bosses.Enduris
         int ArmPosY = 180;
         float ArmRot = 0f;
         int AttackPhase = 0;
-        Byte Spawn = 0;
         public override void AI()
         {
             #region Attack loop
@@ -91,11 +90,13 @@ namespace Nocturn.NPCs.Bosses.Enduris
             {
                 AttackPhase = 0;
             }
-            #endregion
+            #endregion  
+            
 
-            #region Movment
+
             NPC endurisHead = Main.npc[center];
-            EndurisArm1 endurisArm1 = npc.modNPC as EndurisArm1;
+            
+            EndurisHand endurisArm1 = npc.modNPC as EndurisHand;
             if (endurisArm1 != null)
             {
                 
@@ -104,18 +105,18 @@ namespace Nocturn.NPCs.Bosses.Enduris
                 npc.rotation = ArmRot;
                 if (AttackPhase == 0 )
                 {
-                    if (npc.ai[1] == 0 && ArmRot > 0f)
+                    if (npc.ai[1] == 0 && ArmPosX != 470)
                     {
-                        ArmRot -= 0.01f;
-                       // ArmPosX -= 1;
-                        ArmPosY = -290;
+                        ArmRot += 0.03f;
+                        ArmPosX -= 8;
+                        ArmPosY -= 3;
                     }
-                    if (npc.ai[1] == 1 && ArmRot < 0f)
+                    if (npc.ai[1] == 1 && ArmPosX != -300)
                     {
                         npc.spriteDirection = 1;
-                       // ArmPosX += 1;
-                        ArmPosY = -290;
-                        ArmRot += 0.01f;
+                        ArmPosX += 8;
+                        ArmPosY -= 3;
+                        ArmRot -= 0.03f;
                     }
                     
                 }
@@ -126,36 +127,36 @@ namespace Nocturn.NPCs.Bosses.Enduris
                        
                         if(npc.ai[1] == 0)
                         {
-                            ArmPosX = 440;
-                            ArmPosY = -290;
-                            ArmRot = 0f;
+                            ArmPosX = 470;
+                            ArmPosY = -320;
+                            ArmRot = 0.2f;
                         }
 
 
                         if (npc.ai[1] == 1)
                         {
                             npc.spriteDirection = 1;
-                            ArmPosX = -180;
-                            ArmPosY = -290;
-                            ArmRot = 0f;
+                            ArmPosX = -300;
+                            ArmPosY = -320;
+                            ArmRot = -0.2f;
                         }
                     }
                     if (attackCool < 150 && attackCool >90 && ArmPosY != 230)
                     {
 
-                        ArmPosY = -290 ;
+                        ArmPosY -= -3 ;
                         if (npc.ai[1] == 0)
                         {
-                            //ArmPosX += 1;
-                            ArmRot += 0.01f;
+                            ArmPosX += 8;
+                            ArmRot -= 0.03f;
                         }
 
 
                         if (npc.ai[1] == 1)
                         {
                             npc.spriteDirection = 1;
-                            //ArmPosX -= 1;
-                            ArmRot -= 0.01f;
+                            ArmPosX -= 8;
+                            ArmRot += 0.03f;
                             
                         }
 
@@ -169,9 +170,6 @@ namespace Nocturn.NPCs.Bosses.Enduris
                 }
                 
             }
-            #endregion
-
-
         }
     }
 }

@@ -40,6 +40,13 @@ namespace Nocturn.NPCs.Bosses.Enduris
             npc.behindTiles = true;
         }
 
+        #region Color glow thingy
+        public override Color? GetAlpha(Color lightColor) // color of glow
+        {
+            return new Color(0.7f, 0.7f, 0.7f);
+        }
+        #endregion
+
         #region NPC Position prt 2: electricboogaloo
         public static void SetPosition(NPC npc)
         {
@@ -82,7 +89,22 @@ namespace Nocturn.NPCs.Bosses.Enduris
 
 
             #region Spawn parts
-            if (SpawnParts == 0)
+            if (SpawnParts == 1)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    int Armcount = 2;
+                    int Arm = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisArm2>(), npc.whoAmI, 0, Armcount);
+                    Main.npc[Arm].ai[0] = npc.whoAmI;
+                    Main.npc[Arm].ai[1] = k;
+                    EndurisArm2.SetPosition(Main.npc[Arm]);
+
+                    SpawnParts = 2;
+                    npc.netUpdate = true;
+                }
+                
+            }
+            if(SpawnParts == 2)
             {
                 for (int k = 0; k < 2; k++)
                 {
@@ -92,13 +114,50 @@ namespace Nocturn.NPCs.Bosses.Enduris
                     Main.npc[Arm].ai[1] = k;
                     EndurisArm1.SetPosition(Main.npc[Arm]);
 
+                    SpawnParts = 3;
+                    npc.netUpdate = true;
+                }
+
+            }
+            if (SpawnParts == 3)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    int Pipecount = 2;
+                    int Pipe = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisPipe>(), npc.whoAmI, 0, Pipecount);
+                    Main.npc[Pipe].ai[0] = npc.whoAmI;
+                    Main.npc[Pipe].ai[1] = k;
+                    EndurisPipe.SetPosition(Main.npc[Pipe]);
+
+                    SpawnParts = 4;
+                    npc.netUpdate = true;
+                }
+
+            }
+            if (SpawnParts == 0)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    int Handcount = 2;
+                    int Hand = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<EndurisHand>(), npc.whoAmI, 0, Handcount);
+                    Main.npc[Hand].ai[0] = npc.whoAmI;
+                    Main.npc[Hand].ai[1] = k;
+                    EndurisHand.SetPosition(Main.npc[Hand]);
+
                     SpawnParts = 1;
                     npc.netUpdate = true;
                 }
+                
+
             }
             #endregion
         }
 
         #endregion
+
+
+
+       
+        
     }
 }

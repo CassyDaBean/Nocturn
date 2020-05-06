@@ -48,7 +48,14 @@ namespace Nocturn.NPCs.Bosses.Enduris
             npc.noGravity = true;
             npc.noTileCollide = true;
         }
+        #region Color glow thingy
+        public override Color? GetAlpha(Color lightColor) // color of glow
+        {
+            return new Color(0.7f, 0.7f, 0.7f);
+        }
+        #endregion
 
+        float tvel = 20f;
         public override void AI()
         {
             #region spawn body parts
@@ -109,6 +116,14 @@ namespace Nocturn.NPCs.Bosses.Enduris
 
             }
             #endregion
+
+            Player player = Main.player[npc.target];
+            npc.position = new Vector2 (player.Center.X - 270, player.Center.Y - 500);
+            float speed = tvel; // pixels per second
+            npc.velocity = new Vector2(player.Center.X - npc.Center.X, player.Center.Y - npc.Center.Y - 400).SafeNormalize(Vector2.Zero) * speed;
+
+            tvel = 5f;
+
         }
     }    
 }
