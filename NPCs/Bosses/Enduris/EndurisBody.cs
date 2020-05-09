@@ -64,6 +64,7 @@ namespace Nocturn.NPCs.Bosses.Enduris
         int BodyPosX = 0;
         int BodyPosY = 0;
         Byte SpawnParts = 0;
+        float ArmRot = 0f; 
         public override void AI()
         {
             #region Positioning
@@ -87,8 +88,8 @@ namespace Nocturn.NPCs.Bosses.Enduris
 
             #endregion
 
-
-            #region Spawn parts
+            ArmRot = 0.5f;
+            /*#region Spawn parts
             if (SpawnParts == 1)
             {
                 for (int k = 0; k < 2; k++)
@@ -150,14 +151,56 @@ namespace Nocturn.NPCs.Bosses.Enduris
                 
 
             }
-            #endregion
+            #endregion*/
         }
 
         #endregion
+        public Arm1[] arm1s = null;
 
+        public class Arm1info
+        {
+            public int ArmT = 0;
+            public Vector2 position, oldPosition;
+        }
+        public class Arm1 : Arm1info
+        {
 
+        }
+        public void DrawLimbs(SpriteBatch spriteBatch, Color drawColor)
+        {
+            drawColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            
+            
+            
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
+        {
+            Texture2D Arm2 = mod.GetTexture("NPCs/Bosses/Enduris/EndurisArm2");
+            Texture2D Arm1 = mod.GetTexture("NPCs/Bosses/Enduris/EndurisArm1");
+            Vector2 Arm1Pos1 = new Vector2(npc.Center.X - 300, npc.Center.Y);
+            Vector2 Arm1Pos2 = new Vector2(npc.Center.X +300, npc.Center.Y);
+            Rectangle Arm = new Rectangle(0, 0, 260, 592);
+            Vector2 Arm2Pos1 = new Vector2(Arm1Pos1.X, Arm1Pos1.Y + 300);
 
-       
-        
+            Rectangle ForArm = new Rectangle(0, 0, 150, 800);
+
+            for (int k = 0; k < 2; k++)
+            {
+                spriteBatch.Draw(Arm1, Arm1Pos1 - Main.screenPosition, Arm, DrawColor, ArmRot, new Vector2(Arm.Width * 0.5f, Arm.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Arm1, Arm1Pos2 - Main.screenPosition, Arm, DrawColor, ArmRot, new Vector2(Arm.Width * 0.5f, Arm.Height * 0.5f), 1f, SpriteEffects.FlipHorizontally, 0f);
+
+                spriteBatch.Draw(Arm2, Arm2Pos1 - Main.screenPosition, ForArm, DrawColor, ArmRot, new Vector2(ForArm.Width * 0.5f, ForArm.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(Arm2, Arm1Pos2 - Main.screenPosition, Arm, DrawColor, ArmRot, new Vector2(Arm.Width * 0.5f, Arm.Height * 0.5f), 1f, SpriteEffects.FlipHorizontally, 0f);
+
+                SpawnParts = 1;
+                npc.netUpdate = true;
+            }
+
+            
+
+            
+            spriteBatch.Draw(mod.GetTexture("NPCs/Bosses/Enduris/EndurisBody"), npc.Center - Main.screenPosition, npc.frame, DrawColor, npc.rotation, new Vector2(npc.width * 0.5f, npc.height * 0.5f), 1f, SpriteEffects.None, 0f);
+            return false;
+        }
     }
 }
