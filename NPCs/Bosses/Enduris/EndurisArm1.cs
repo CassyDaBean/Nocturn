@@ -77,9 +77,10 @@ namespace Nocturn.NPCs.Bosses.Enduris
         Byte Spawn = 0;
         public override void AI()
         {
+            
             #region Attack loop
             attackCool -= 1f;
-
+            
             if (Main.netMode != 1 && attackCool <= 0f)
             {
                 attackCool = 200f;
@@ -106,16 +107,12 @@ namespace Nocturn.NPCs.Bosses.Enduris
                 {
                     if (npc.ai[1] == 0 && ArmRot > 0f)
                     {
-                        ArmRot -= 0.01f;
-                       // ArmPosX -= 1;
                         ArmPosY = -290;
                     }
                     if (npc.ai[1] == 1 && ArmRot < 0f)
                     {
                         npc.spriteDirection = 1;
-                       // ArmPosX += 1;
                         ArmPosY = -290;
-                        ArmRot += 0.01f;
                     }
                     
                 }
@@ -146,24 +143,18 @@ namespace Nocturn.NPCs.Bosses.Enduris
                         ArmPosY = -290 ;
                         if (npc.ai[1] == 0)
                         {
-                            //ArmPosX += 1;
-                            ArmRot += 0.01f;
                         }
 
 
                         if (npc.ai[1] == 1)
                         {
                             npc.spriteDirection = 1;
-                            //ArmPosX -= 1;
-                            ArmRot -= 0.01f;
-                            
                         }
 
 
                     }
                     if(attackCool < 10 && ArmPosY <= 230 && ArmPosY !=180)
                     {
-                        
                         //ArmPosY -= 1;
                     }
                 }
