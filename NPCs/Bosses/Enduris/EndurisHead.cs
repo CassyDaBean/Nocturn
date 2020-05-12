@@ -117,13 +117,13 @@ namespace Nocturn.NPCs.Bosses.Enduris
             }
             #endregion
 
-            /*Player player = Main.player[npc.target];
+            Player player = Main.player[npc.target];
             npc.position = new Vector2 (player.Center.X - 270, player.Center.Y - 500);
             float speed = tvel; // pixels per second
             npc.velocity = new Vector2(player.Center.X - npc.Center.X, player.Center.Y - npc.Center.Y - 400).SafeNormalize(Vector2.Zero) * speed;
 
             tvel = 0f;
-            */
+            
 
         }
     }    
