@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Nocturn;
 
 
 namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
@@ -31,39 +32,44 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
         #endregion
 
-        public int loop = 0;// Loop thing
-        int Timer = 0;
-        public int Framepos = 0;
+        #region The Wall of Int       
+        int Timer = 0;        
         int AnimPhase = 0;
-        int AnimFrames = 0;
-        public int attack = 0;
-        bool _Attacking = false;
+        int AnimFrames = 0;                
+        int _attackDur = 0;
+        int _despawn = 0;
         public static int attackphase = 0;
+        public int Framepos = 0;
+        public int loop = 0;// Loop thing
+        public int attack = 0;
         public int attackRel = -1;
         public int attackdelayMAX = 0;
         public int attackdelay = 0;
-        int _attackDur = 0;
-        int _despawn = 0;
         public int shOOt = 0;
         public int shOOt2 = 0;
-        //Thank you Laugic for that old YT vid you made for this!
-        public float targetx = 0;
-        public float targety = 0;
         public int vMAX = 0;
         public int vAccel = 0;
-        public float tvel = 0f; //target Velocity
-        public float vmag = 0f;
-
-        //testing this out
-        bool Goddamnit = false;
         public int TimerMAX = 0;
         public int AnimTime = 0;
+        #endregion
+
+        #region Very bool of you game
+        bool _Attacking = false;
+        bool Goddamnit = false;
+        #endregion
+
+        #region We all float down here
+        public float targetx = 0;
+        public float targety = 0;
+        public float tvel = 0f; //target Velocity
+        public float vmag = 0f;
         public float Tic = 0f;
         public float Phasetimer = 0f;
+        public float Fadeout = 2f;
+        public float ColorFade = 0.90f;
+        #endregion
 
-
-       
-
+        Vector2 PartPos;
 
         public override void SetStaticDefaults()
         {
@@ -72,7 +78,8 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
         }
         public override void SetDefaults()
         {
-            
+            Fadeout = 2.5f;
+            ColorFade = 0.90f;
             Goddamnit = false;
             loop = 0;
             TimerMAX = 10;
@@ -96,7 +103,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             attackRel = -1;
             vMAX = 100;
             vAccel = 10;
-            npc.aiStyle = 0;
+            npc.aiStyle = -1;
             npc.lifeMax = 3400;
             npc.damage = 20;
             npc.defense = 15;
@@ -112,7 +119,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = null;
-            npc.alpha = 0;
+            npc.alpha = 225;
             npc.dontTakeDamage = false;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AF");
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -130,7 +137,24 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
         public override void AI()
         {
-            npc.dontTakeDamage = false;
+            Player player = Main.player[npc.target];
+            #region wake the fuck up
+            
+            //int NpcposW = npc.width;
+            Dust dust;
+            // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
+            PartPos = new Vector2(npc.Center.X - 45 , npc.Center.Y - 45);
+            dust = Main.dust[Terraria.Dust.NewDust(PartPos, 105, 121, 20, 0f, 0f, 211, new Color(0, 255, 117), 0.9868422f)];
+            dust.noLight = true;
+            dust.fadeIn = 0.6315789f;
+
+
+            #endregion
+
+
+
+
+            //npc.dontTakeDamage = false;
             Main.raining = true;
             //Main.rainTime = 100;
 
@@ -158,10 +182,11 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
             //Movement code
             #region Movement
             //THANK YOU DUAL FOR THIS CODE
+            
             float speed = tvel; // pixels per second
             npc.velocity = (Main.player[npc.target].Center - npc.Center).SafeNormalize(Vector2.Zero) * speed;
 
-            Player player = Main.player[npc.target];
+            
             if (npc.Distance(player.Center) < 50)
             {
                 tvel -= 1;
@@ -287,9 +312,9 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                     AnimPhase = 1;
                 }
             }
-            else if (_attackDur >= 21)// Sets it back to Idle
+            else if (_attackDur <= 22 && _attackDur >= 20)// Sets it back to Idle
             {
-                _attackDur = 0;
+                AnimPhase = 3;
             }
             #endregion
 
@@ -355,7 +380,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                 
                 if (loop == 20 && !Goddamnit)
                 {
-                    for (int k = 0; k < 10; k++) //this if for crating and centering the AFL's
+                    for (int k = 0; k < 8; k++) //this if for crating and centering the AFL's
                     {
 
                         int AF = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<AFL>());
@@ -473,6 +498,14 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                 }
                     npc.netUpdate = true;
             }
+            //Death anim set
+            /* #region Death anim set
+             if(attackphase == 2 && npc.life <= npc.lifeMax * .25)
+             {
+                 attackphase = 6;
+             }
+             #endregion*/
+
             #endregion
 
             //Phase 3
@@ -525,7 +558,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
             //Phase 4 (Main Hub for the attacks)
             #region Phase 4
-            if (attackphase == 4)
+            if (attackphase == 4 /*npc.life >= npc.lifeMax * .25f*/)
             {
                 if (Phasetimer <= 0f)
                 {
@@ -560,6 +593,11 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
                     Phasetimer = -1f;
                 }
             }
+            //Death transition
+            /*if(attackphase == 4 && npc.life < npc.lifeMax * .25f)
+            {
+                attackphase = 6;
+            }*/
             #endregion
 
             //Phase 5
@@ -597,23 +635,72 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
             #endregion
 
-            //making it so ifthe AFL's are alive he can't be attacked
+            //Death anim phase
+            #region Death
+            if (attackphase == 6)
+            {
+                tvel = 0f;
+                npc.dontTakeDamage = true;
+                _attackDur = 21;
+                Fadeout -= 0.1f;
+                if (Fadeout >= 0.01f)
+                {
+                    //Fadeout -= 0.01f;
+                }
+                if (Fadeout <= 0f)
+                {
+                    //Fadeout += 0.03f;
+                }
+            }
+            #endregion
+
+            //making it so if the AFL's are alive he can't be attacked
             #region Inv
             bool Inv = false;
-            for (int i = 0; i < Main.npc.Length -1; i++)
+            if (attackphase != 6)
             {
-                
-                    if (Main.npc[i].active&&Main.npc[i].type == ModContent.NPCType<AFL>())
+                for (int i = 0; i < Main.npc.Length - 1; i++)
+                {
+
+                    if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AFL>())
                     {
-                    Inv = true;
+                        Inv = true;
                         break;
-                    }                               
+                    }
+                }
+                Main.raining = true;
+                npc.dontTakeDamage = Inv;
             }
-            Main.raining = Inv;
-            npc.dontTakeDamage = Inv;
+            else
+            {
+                Inv = true;
+            }
             #endregion
         }
 
+        //Frame Offset
+        #region Frame offset
+        
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Player player = Main.player[npc.target];
+            drawColor = new Color(ColorFade,ColorFade,ColorFade,Fadeout);
+            if (player.Center.X > npc.Center.X)
+            {
+                spriteBatch.Draw(mod.GetTexture("NPCs/Bosses/Aquafuros/AquaMain/Aquafuros"), npc.Center - Main.screenPosition,
+                            npc.frame,drawColor, npc.rotation,
+                            new Vector2(npc.width * 0.5f, npc.height * 0.5f), 1f, SpriteEffects.FlipHorizontally, 0f);
+                new Color(0f, 0f,0f, npc.alpha);
+            }
+            else
+            {
+                spriteBatch.Draw(mod.GetTexture("NPCs/Bosses/Aquafuros/AquaMain/Aquafuros"), npc.Center - Main.screenPosition,
+                            npc.frame, drawColor, npc.rotation,
+                            new Vector2(npc.width * 0.5f, npc.height * 0.5f), 1f, SpriteEffects.None, 0f);
+            }            
+            return false;
+        }
+        #endregion
 
         //Actual NPC Frame count and whatnot 
         #region Frame shit
@@ -622,6 +709,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
             if (AnimPhase == 0)
             {
+                
                 npc.frameCounter++;
                 if (npc.frame.Y == frameHight * 6)
                 {
@@ -631,6 +719,8 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
                 if (npc.frameCounter > 4)
                 {
+                    npc.frame.X = 0;
+                    npc.frame.Width = npc.width;
                     npc.frameCounter = 0;
                     npc.frame.Y += frameHight;
                     if (npc.frame.Y >= frameHight * Main.npcFrameCount[npc.type]) npc.frame.Y = 0;
@@ -648,6 +738,8 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
                 if (npc.frameCounter > 4)
                 {
+                    npc.frame.X = 0;
+                    npc.frame.Width = npc.width;
                     npc.frameCounter = 0;
                     npc.frame.Y += frameHight;
                     if (npc.frame.Y >= frameHight * Main.npcFrameCount[npc.type]) npc.frame.Y = 0;
@@ -665,6 +757,27 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
 
                 if (npc.frameCounter > 4)
                 {
+                    npc.frame.X = 0;
+                    npc.frame.Width = npc.width;
+                    npc.frameCounter = 0;
+                    npc.frame.Y += frameHight;
+                    if (npc.frame.Y >= frameHight * Main.npcFrameCount[npc.type]) npc.frame.Y = 0;
+                }
+            }
+            if (AnimPhase == 3)
+            {
+                
+                npc.frameCounter++;
+                if (npc.frame.Y > frameHight * 16)
+                {
+                    npc.frame.Y = 0;
+                    npc.frame.X = npc.width;
+                    npc.frame.Width = npc.width;
+                }
+                if (npc.frameCounter > 4)
+                {
+                    npc.frame.X = npc.width;
+                    npc.frame.Width = npc.width;
                     npc.frameCounter = 0;
                     npc.frame.Y += frameHight;
                     if (npc.frame.Y >= frameHight * Main.npcFrameCount[npc.type]) npc.frame.Y = 0;
@@ -678,16 +791,24 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
         #region Loot
         public override void NPCLoot()
         {
-            NocturnWorld.YeetedAquafuros = true;
-             if (Main.expertMode)
-             {
-                 Item.NewItem(npc.getRect(), mod.ItemType("Aquabag"));
-             }
-             else
-             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Aquamace"));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AquaSpitter"));                
-             }
+            if (!NocturnWorld.YeetedMechs)
+            {
+                Projectile.NewProjectile(npc.Center, new Vector2(0f, 0f), mod.ProjectileType("AquaDefeat"), 0, 0);
+                NocturnWorld.YeetedAquafuros = true;
+                if (Main.expertMode)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("Aquabag"));
+                }
+                else
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Aquamace"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AquaSpitter"));
+                }
+            }
+            else
+            {
+                Projectile.NewProjectile(npc.Center, new Vector2(0f, 0f), mod.ProjectileType("AquaTrans"), 0, 0);
+            }
         }
         #endregion
     }

@@ -72,7 +72,7 @@ namespace Nocturn.NPCs.Bosses.Aquafuros.AquaMain
         public override void AI()
         {
             #region NPC Position prt 1
-            float Rot = 0.1f;
+            
             if (_blip == -1 && aiballcount == 0)
             {
                 _blip = npc.ai[1] * 6.28f / 8;
