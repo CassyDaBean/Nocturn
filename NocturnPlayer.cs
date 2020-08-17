@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Nocturn.Buffs;
+using Nocturn.Buffs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -18,14 +18,14 @@ namespace Nocturn
 
         public override void ResetEffects()
         {
-            resetminion();
+            GigaBab = false;
         }
 
-        private void resetminion()
+        /*private void resetminion()
         {
             GigaBab = false;
 
-        }
+        }*/
 
     }
 }
